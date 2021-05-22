@@ -224,11 +224,11 @@
    * process to itself
   * each signal is represented by a numeric constanct and a textual name
   * some examples
-| Signal | Value | Comment
-|:------:|:-----:|--------
-|SIGHUP  |   1   |  Hangup detected on controlling terminal
-|SIGINT  |   2   |  Interrupt from keyboard
-|SIGKILL |   9   |  Kill signal
+  | Signal | Value | Comment |
+  |:------:|:-----:|--------
+  |SIGHUP  |   1   |  Hangup detected on controlling terminal |
+  |SIGINT  |   2   |  Interrupt from keyboard |
+  |SIGKILL |   9   |  Kill signal |
   * signals interrupt a process, causing it to stop whatever it is doing and immediately perform a predetermined action
   * processes may control what happens when receiving a signal
     * exceptions `SIGKILL` (always terminates) and `SIGSTOP` (always stops) processes
