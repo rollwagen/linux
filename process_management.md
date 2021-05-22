@@ -41,8 +41,6 @@ _note:_
   * there's no single exec function, instead a range of exec functions built on singel syscall
   * `execl()` replaces current process image with new one specified with `path`
     ```c
-    #include <unistd.h>
-    #include <stdio.h>
     int main() {
       execl("/bin/ls", "ls", NULL);
     }
@@ -61,8 +59,6 @@ _note:_
     * any pending signals are cleared
     * file locks are not inherited by child
       ```c
-      #include <unistd.h>
-      #include <stdio.h>
       int main() {
         pid_t pid = fork ();
         //sleep(1);
@@ -109,4 +105,39 @@ registration.
     * (3) Close all open streams.
     * (4) Unlink all files created with the tmpfile(3) function.
   * when done with above steps, `exit()` invokes the syscall `_ exit()`
-  * the kernel handle the rest of the termination process
+  * the kernel handles the rest of the termination process
+
+## daemons
+
+* process that runs in the background, not connected to a (controlling) terminal
+* two requirements:
+  * must run as child of _init_
+  * must not be connected to terminal
+* for a program to become a daemon:
+  * (1) `fork()`
+  * (2) in the parent call `exit()`; _reparents_ process to pid 1 (=init)
+  * (3) call `setsid()` - with process itself as leader
+  * (4) change the working directory to the root directory "/" via `chdir()`
+  * (5) close all file descriptors
+  * (6) open file descriptors 0, 1, 2 and redirect them to `/dev/null`
+
+    ```c
+    #include <stdlib.h>
+    #include <fcntl.h>
+    #include <unistd.h>
+    int main (void) {
+            pid_t pid = fork (); // (1)
+            if (pid != 0)  // (2)
+              exit (EXIT_SUCCESS);
+            setsid (); // (3)
+            chdir ("/"); // (4)
+            for (int i = 0; i < 1024; i++) // (5)
+                    close (i);
+            // (6) note: open() always allocates lowest available fd number
+            int fd = open ("/dev/null", O_RDWR); /* 0 stdin */
+            dup (0);                             /* 1 stdout */
+            dup (0);                             /* 2 stderror */
+            /* daemon code goes here */
+            return 0;
+    }
+    ```
