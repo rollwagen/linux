@@ -87,4 +87,20 @@
       * deleting a file _unlinks_ it from directory (removing name-inode pair from directory)
       * each inode contains a _link count_
     * _symlinks_ - has its own inode and data chunk, which contains the complete pathname of the linked-to file
+    * Example:   _note string length "hardlink.txt" = 12_
+    ```bash
+       	inode Permissions   Links Size  Name
+	2674927 .rw-r--r--      2    0  hardlink.txt
+	2674927 .rw-r--r--      2    0  hardlink2.txt
+	2674944 lrwxr-xr-x      1   12  softlink.txt -> hardlink.txt
+    ```
+
+
+## special files
+  * types of special files (four)
+    * block device files
+    * character device files
+    * named pipes (FIFO)
+    * Unix domain sockets
+
 
