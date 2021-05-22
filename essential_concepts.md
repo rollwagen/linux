@@ -54,21 +54,23 @@
   * writing bytes to file positions beyond the end of file will cause intervening bytes padded with zero
 
     ```c
-    #include <fcntl.h> // open
-    #include <unistd.h> // write
+    #include <fcntl.h> // for open
+    #include <unistd.h> // for write
     int main()
     {
       int fd; // file descriptor
-      fd = open("file.bin", O_RDWR|O_CREAT); // O_RDWR open read+write, O_CREAT create if not exist
+      // O_RDWR open read+write, O_CREAT create if not exist
+      fd = open("file.bin", O_RDWR|O_CREAT);
       char onebyte = 1;
       write(fd, &onebyte, sizeof(char));
-      pwrite(fd, &onebyte, sizeof(char), 10); // 'p'=position, last param = off_t offset
+      // 'p'=position; last param is  off_t offset
+      pwrite(fd, &onebyte, sizeof(char), 10);
       close(fd);
     }
     ```
 
     ```bash
-    hexdump file.bin
+    $ hexdump file.bin
     0000000 01 00 00 00 00 00 00 00 00 00 01
     ```
 
@@ -237,13 +239,14 @@
 * kernel to process
 * process to another process
 * process to itself
-* each signal is represented by a numeric constanct and a textual name
-* some examples
-  | Signal | Value | Comment |
-  |:------:|:-----:|--------
-  |SIGHUP  |   1   |  Hangup detected on controlling terminal |
-  |SIGINT  |   2   |  Interrupt from keyboard |
-  |SIGKILL |   9   |  Kill signal |
+* each signal is represented by a numeric constanct and a textual name e.g.
+
+| Signal | Value | Comment                                  |
+|:------:|:-----:|:-----------------------------------------|
+|SIGHUP  |   1   |  Hangup detected on controlling terminal |
+|SIGINT  |   2   |  Interrupt from keyboard                 |
+|SIGKILL |   9   |  Kill signal                             |
+
 * signals interrupt a process...
   * causing it to stop whatever it is doing + immediately perform a predetermined action
   * processes may control what happens when receiving a signal ('predetermined action')
