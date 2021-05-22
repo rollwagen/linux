@@ -214,3 +214,32 @@
     * an owning user
     * an owning group
     * three sets of permission bits
+
+## signals
+  * _signals_ - mechanism for one-way asynchronous notification
+  * typically alert a process about some event; about 30 signals implemented in kernel
+  * may be sent from:
+   * kernel to process
+   * process to another process
+   * process to itself
+  * each signal is represented by a numeric constanct and a textual name
+  * some examples
+  | Signal | Value | Comment
+  |:------:|:-----:|--------
+  |SIGHUP  |   1   |  Hangup detected on controlling terminal
+  |SIGINT  |   2   |  Interrupt from keyboard
+  |SIGKILL |   9   |  Kill signal
+  * signals interrupt a process, causing it to stop whatever it is doing and immediately perform a predetermined action
+  * processes may control what happens when receiving a signal
+    * exceptions `SIGKILL` (always terminates) and `SIGSTOP` (always stops) processes
+
+## interprocess communication
+  * IPC mechanisms supported by Linux include:
+    * pipes
+    * named pipes
+    * semaphores
+    * message queues
+    * shared memory
+    * futexes
+
+
