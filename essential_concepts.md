@@ -90,9 +90,9 @@
     * Example:   _note string length "hardlink.txt" = 12_
     ```bash
        	inode Permissions   Links Size  Name
-	2674927 .rw-r--r--      2    0  hardlink.txt
-	2674927 .rw-r--r--      2    0  hardlink2.txt
-	2674944 lrwxr-xr-x      1   12  softlink.txt -> hardlink.txt
+        2674927 .rw-r--r--      2    0  hardlink.txt
+        2674927 .rw-r--r--      2    0  hardlink2.txt
+        2674944 lrwxr-xr-x      1   12  softlink.txt -> hardlink.txt
     ```
 
 
@@ -103,4 +103,114 @@
     * named pipes (FIFO)
     * Unix domain sockets
 
+  * **device files** - two groups 1. _character devices_ and 2. _block devices_
+    * character device - linear queue of bytes
+    * block device - (accessed as) an array of bytes
 
+  * **names pipes** (or **FIFO**)
+    * Named pipes are an interprocess communication (IPC)
+    * communication channel over a fd (file descriptor), accessed via a special file
+
+  * **sockets** (Unix domain sockets)
+    * advanced form of IPC (interprocess communication), multiple varieties
+    * communication between two different processes; on same of different machines
+    * _Unix domain socket_ = form of socket used for communication within the local machine
+
+
+## filesystem and namespaces
+  * _unified namespace_ in Linux/Unix (e.g. in Windows drives have a separate namespace such as `A:\`
+  * _filesystem_ =  collection of files and directories in a hierarchy
+  * _mount_ / _unmount_ - adding/removing a filesystem to global namespace
+  * filesystems...
+    * _physical_ - stored on disk
+    * _virtual_ - only exist in memory
+    * _network_ - exist on machines across network
+
+  * _sector_ - smallest addressable unit on a block device; pysical attribute of device; physical attr. of a device
+  * _block_ - smallest logically addressable unit on a filesystem
+    * usually a power-of-two multiple of the sector size
+    * generally larger than sector
+      * note: must be smaller than _page size_ (smallest unit addressable by the _memory management unit_ [artificial kernel limitation for simplicity, might go away])
+
+  * see [Queue sysfs files](https://www.kernel.org/doc/html/latest/block/queue-sysfs.html)
+    * **hw_sector_size (RO)** - hardware sector size of the device, in bytes.
+    ```bash
+      $ cat /sys/block/dm-0/queue/hw_sector_size
+      512
+      # block size
+      $ sudo blockdev --getbsz /dev/dm-0
+      4096
+      $ stat -f .
+      Block size: 4096       Fundamental block size: 4096
+      Blocks: Total: 3724026    Free: 2246906    Available: 2052807
+      Inodes: Total: 950272     Free: 794298
+    ```
+
+  * _per-process namespaces_ by default, each process inherits the namespace of parent; a process may create its own namespace with own set of mount points and a unique root directory.
+
+
+## processes
+  * _processes_ are object code in executing /  active, running programs, consisting of
+    * object code
+    * data
+    * resources
+    * state
+    * a virtualized computer
+  * **ELF** _Excecutable and Linkable Format_; machine-runnable code in executable format kernel understands, contains:
+    * metadata
+    * multiple _sections_ of code and data
+  * ELF **sections** - linear chunks of obj code, all bytes in a section are treated the same (permission etc)
+    * _text section_ - executable code and read-only data (e.g. constands); read-only
+    * _data sections_ - initialized data e.g. C variables with defined values; read-write
+    * _bss section__ - uninitialized global data to be initialized (optimization) by _zero page_
+    * _absolute section_ - nonrelocatable symbols
+    * _undefined section_ - (catchall)
+  * process **resources**
+    * managed by kernel
+    * resource manipulation through system calls
+    * examples: timers, pending signals, open files, network connections, IPC, ..
+
+  * **process descriptor** - inside kernel sotere for process resources, data, statistics, ..
+
+  * a process is a **virtualization abstraction** - kernel supporting boht preemptive multitasking and virtual memory 
+    * each process is afforded a single linear address space, as if it alone were in control of all of system memory
+ 
+
+  * **threads**
+    * each process consists of one or more _threads_ ('thread of execution')
+    * _thread_ = the unit of activity within a process
+    * a _thread_ consists of
+      * a stack (stores local variables)
+      * processor status
+      * current location of object code (usually processor's _instruction pointer_) 
+    * shared with process:
+      * address space; thread share same virtual memory abstraction
+    * kernel internal - views thread as normal processes to share some resources
+
+
+  * **process hierarchy**
+    * each process is identified by unique positive integer _process ID_
+    * processes form a strict hierarcy, the _process tree_
+    * PID = 1 first process or _init process_
+    * new processes created via the `fork()` syscall
+      * creates a duplicate of the calling (=parent) process
+      * original process = _parent_, new process = _child_
+      * child processes inherit the uids of their parents.
+      * _reparenting_ - if parent terminates before child, kernel will _reparent_ child to init process
+    * a process is not immediately removed, instead kernel keeps part in memory to allow parent to inquiry about staus `wait()` 
+      * WAIT(2) "...In the case of a terminated child,
+       performing a wait allows the system to release the resources associated with the child; if a wait  is  not  per‐
+       formed, then the terminated child remains in a "zombie" state ..."
+
+## users and groups
+  * _authorization_ in Linux is provided by _users_ and _groups_
+  * _user ID_ (uid) - unique positive int associated with user
+    * each process in turn associated with one uid; called process _real uid_
+  * uid 0 = _root_
+  * earch user has a _primary_ or _login group_ (listed in `/etc/passwd`); _supplemental groups_ are in `/etc/groups`
+
+## permissions
+  * each file is associated with
+    * an owning user
+    * an owning group
+    * three sets of permission bits
