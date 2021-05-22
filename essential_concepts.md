@@ -38,10 +38,13 @@
     * of C type `int`
     * _fd_ abbreviated
     * shared with user space 
+    * a file can be opened more than once, each open instance has their own unique fd
+    * concurrent file access - must be coordinated by user-space programs themselves
 
   * **regular files**
     * bytes of data, organized in linear array called _byte stream_
     * _file offset_ or _file position_ = location within the file
+    * _offset_ max value = size of the C type used to store it (64 bits usually on modern systems)
     * writing a byte to a file position beyond the end of file will cause intervening bytes padded with zero
     ```c
     #include <fcntl.h> // open
@@ -60,3 +63,28 @@
     hexdump file.bin
     0000000 01 00 00 00 00 00 00 00 00 00 01
     ```
+
+  * **inodes** 
+    * a file is referenced by an _inode_ (information node)
+    * inode number (or _i-number_ or _ino_ = integer value unique to filesystem
+    * _inode_ stores file _metadata_ e.g.
+      * e.g. modification timestamp, owner, type, length, and the location
+      * metadata does _not_ include filename
+    * inode is both physical obj on disk; and data structure `struct inode` / in-memory representation in kernel
+    * `ls -i` lists inode numbers e.g. `ls -i /tmp/file.bin`, output:  `2671722 /tmp/file.bin`
+    * _directories_ - mapping of human-readable names to inode numbers
+      * directory is like any normal file, with difference that it contains only mappings of names to inodes
+    * _link_ = (file-)name and inode pair(-mapping)
+      * _...The physical on-disk form of this mapping—for example, a simple table or a hash—is implemented and managed by the kernel code that supports a given filesystem..._
+    * _dentry_ = directory entry
+    * _directory or pathname resolution_ - kernel's walk though dentries to find a specific inode
+    * _fully qualified_ / _ absolute pathname_ - starting at `root` "/" directory
+    * unlike normal files, kernel does not allow directories to be opened and manipulated like regular files
+      * can only be manipulated via specific syscalls
+
+  * **hard links** and **symbolic links**
+    * _hard link_ multiple links map different (file-)names to the same inode
+      * deleting a file _unlinks_ it from directory (removing name-inode pair from directory)
+      * each inode contains a _link count_
+    * _symlinks_ - has its own inode and data chunk, which contains the complete pathname of the linked-to file
+
