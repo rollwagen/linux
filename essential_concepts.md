@@ -56,8 +56,7 @@
     ```c
     #include <fcntl.h> // for open
     #include <unistd.h> // for write
-    int main()
-    {
+    int main() {
       int fd; // file descriptor
       // O_RDWR open read+write, O_CREAT create if not exist
       fd = open("file.bin", O_RDWR|O_CREAT);

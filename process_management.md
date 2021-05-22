@@ -1,5 +1,8 @@
 # process management
 
+_note:_
+  On Linux, 0 typically represents success; a nonzero value, such as 1 or -1, corresponds to failure.
+
 * in Unix, the creation of a new process and the act of loading a new binary is separated
   * `fork()`
   * `exec()`
@@ -15,10 +18,10 @@
 * **process id allocation**
   * kernel: pid is of type `pid_t`, generally `int` e.g. _posix_types.h_ `typedef int  __kernel_pid_t;`
   * maximum process id:
-  ```bash
-  $ cat /proc/sys/kernel/pid_max
-  4194304
-  ```
+    ```bash
+    $ cat /proc/sys/kernel/pid_max
+    4194304
+    ```
   * allocation is in a strictly linear fashion
   * kernel does not reuse process IDs until it wraps around from top
 * **process hierarchy**
@@ -29,8 +32,7 @@
   ```c
   #include <unistd.h>
   #include <stdio.h>
-  int main()
-  {
+  int main() {
     printf("pid  = %d\n", getpid());
     printf("ppid = %d\n", getppid());
   }
@@ -38,14 +40,13 @@
 * **exec()**
   * there's no single exec function, instead a range of exec functions built on singel syscall
   * `execl()` replaces current process image with new one specified with `path`
-  ```c
-  #include <unistd.h>
-  #include <stdio.h>
-  int main()
-  {
-    execl("/bin/ls", "ls", NULL);
-  }
-  ```
+    ```c
+    #include <unistd.h>
+    #include <stdio.h>
+    int main() {
+      execl("/bin/ls", "ls", NULL);
+    }
+    ```
   * Unix convention is to pass the program name as the program’s first argument.
   * open files are inherited across an exec
     * often not the desired behavior
@@ -59,24 +60,53 @@
     * resource statistics (reset to zero in child)
     * any pending signals are cleared
     * file locks are not inherited by child
-  ```c
-  #include <unistd.h>
-  #include <stdio.h>
-  int main()
-  {
-    pid_t pid = fork ();
-    //sleep(1);
-    if (pid > 0)
-      printf ("Parent of new child; child pid=%d\n", pid);
-    else if (!pid)
-      printf ("Child with pid=%d and ppid=%d\n", getpid(), getppid() );
-  }
-  ```
-  ```bash
-  # output without sleep -> parent terminates first and kernel reparents child to pid=1
-  Parent of new child; child pid=60525
-  Child with pid=60525 and ppid=1
-  # output with sleep
-  Parent of new child; child pid=60874
-  Child with pid=60874 and ppid=60873
-  ```
+      ```c
+      #include <unistd.h>
+      #include <stdio.h>
+      int main() {
+        pid_t pid = fork ();
+        //sleep(1);
+        if (pid > 0)
+          printf ("Parent of new child; child pid=%d\n", pid);
+        else if (!pid)
+          printf ("Child with pid=%d and ppid=%d\n", getpid(), getppid() );
+      }
+      ```
+      ```bash
+      # output without sleep -> parent terminates first and kernel reparents child to pid=1
+       Parent of new child; child pid=60525
+       Child with pid=60525 and ppid=1
+      # output with sleep
+       Parent of new child; child pid=60874
+       Child with pid=60874 and ppid=60873
+      ```
+    * `fork()` - returns 0 to the child process, and returns pid of child process to the parent process
+      ```c
+      pid_t pid = fork();
+      if (pid==0) printf("I am the child.\n");
+      if (pid!=0) printf("I am the parent.\n");
+      printf("..and I will be printed twice. pid=%d\n", getpid());
+      ```
+      ```bash
+      # output:
+       I am the parent.
+       ..and I will be printed twice. pid=68782
+       I am the child.
+       ..and I will be printed twice. pid=68783
+      ```
+
+  * **copy-on-write**
+    * modern Unix systems do not copy the parent’s address space, but employ copy-on-write (COW) pages
+    * COW is a lazy optimization strategy designed to mitigate the overhead of duplicating resources
+    * modern machine architectures provide HW support for COW in their memory management units (MMUs)
+
+* **exit() / _ exit()**
+  * standard function for terminating the current process
+  * `exit()` (Standard C Library function), performs following functions (in order):
+    * (1) Call the functions registered with the atexit(3) function, in the reverse order of their
+registration.
+    * (2) Flush all open output streams.
+    * (3) Close all open streams.
+    * (4) Unlink all files created with the tmpfile(3) function.
+  * when done with above steps, `exit()` invokes the syscall `_ exit()`
+  * the kernel handle the rest of the termination process
