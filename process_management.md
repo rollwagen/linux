@@ -1,4 +1,4 @@
-# process management
+# Process management
 
 _note:_
   On Linux, 0 typically represents success; a nonzero value, such as 1 or -1, corresponds to failure.
