@@ -12,6 +12,10 @@ included in the code sample again.
 
 [Process Management](process_management.md)
 
+## Filesystem Hierarchy Standard (FHS)
+
+Summary/notes/examples from going over the FHS: [Filesystem Hierarchy Standard](filesystem_hierarchy_standard.md)
+
 ## Convert to PDF
 
 `pandoc.sh`:
