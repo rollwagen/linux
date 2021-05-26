@@ -80,6 +80,8 @@
       * e.g. modification timestamp, owner, type, length, and the location
       * metadata does _not_ include filename
     * both physical obj on disk; and data structure `struct inode` / in-meory representation in kernel
+      * see kernel doc at [The Inode Object](https://www.kernel.org/doc/html/latest/filesystems/vfs.html)
+      * > They live either on the disc (for block device filesystems) or in the memory (for pseudo filesystems)
     * `ls -i` lists inode numbers e.g. `ls -i /tmp/file.bin`, output:  `2671722 /tmp/file.bin`
     * _directories_ - mapping of human-readable names to inode numbers
       * like any normal file, with difference that it contains only mappings of names to inodes
@@ -141,7 +143,8 @@
 * _block_ - smallest logically addressable unit on a filesystem
   * usually a power-of-two multiple of the sector size
   * generally larger than sector
-* see [Kernel doc 'Queue sysfs files'](https://www.kernel.org/doc/html/latest/block/queue-sysfs.html)
+* see [Kernel doc 'Queue sysfs files'](https://www.kernel.org/doc/html/latest/block/queue-sysfs.html)...
+  * ... and man (2) page for syscall 'stat, fstat, lstat, fstatat - get file status'
   * **hw_sector_size (RO)** - hardware sector size of the device, in bytes.
 
     ```bash
