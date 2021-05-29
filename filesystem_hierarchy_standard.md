@@ -37,12 +37,23 @@
     $ ls /lib
     lib/   lib64/
     ```
-* **/sys**
+* **/sys** _not in table above_
 
   * the location where information about devices, drivers, and some kernel features is exposed.
 
 > sysfs is a ram-based filesystem [...]. It provides a means
 > to export kernel data structures, their attributes, ...
+
+* **/proc** _not in table above_
+
+  * referred to as _process information pseudo-file system_
+  * regarded as '_control and information center for the kernel_', many sys utils just use the files in proc
+    * `lsmod` is the same as `cat /proc/modules`
+  * contains runtime system information e.g. mounted devices, hardware, configuration 
+  * read/change kernel parameters by using files in proc (`sysctl`)
+  * _Note:_ all files in '/proc' have a file size of '0' (with the exception of kcore, mtrr and self)
+
+  * see also [tldp: 1.14. /proc](https://tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html)
 
 * **/run**
 
