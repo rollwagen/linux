@@ -1,4 +1,4 @@
-# Linus Essential Concepts
+# Linux Essential Concepts
 
 ## system calls
 
