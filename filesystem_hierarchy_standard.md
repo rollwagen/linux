@@ -47,12 +47,14 @@
 * **/proc** _not in table above_
 
   * referred to as _process information pseudo-file system_
-  * regarded as '_control and information center for the kernel_', many sys utils just use the files in proc
+  * regarded as '_control and information center for the kernel_'
+    * many sys utils just use the files in proc
     * `lsmod` is the same as `cat /proc/modules`
-  * contains runtime system information e.g. mounted devices, hardware, configuration 
+  * contains runtime system information e.g. mounted devices, hardware, configuration
   * read/change kernel parameters by using files in proc (`sysctl`)
   * _Note:_ all files in '/proc' have a file size of '0' (with the exception of kcore, mtrr and self)
 
+  * detail description in man page `man 5 proc`
   * see also [tldp: 1.14. /proc](https://tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html)
 
 * **/run**
@@ -187,6 +189,7 @@ Examples: `/var/lib/pacman`, `/var/lib/apt`, `/var/lib/man-db`
   * `mqueue` - outgoing mail queue
 
 * **/var/tmp**
+
 > The /var/tmp directory is made available for programs that require
 > temporary files or directories that are preserved between system reboots.
 > Therefore, data stored in /var/tmp is more persistent than data in /tmp.
@@ -196,4 +199,3 @@ Examples: `/var/lib/pacman`, `/var/lib/apt`, `/var/lib/man-db`
 * `/usr/local` vs `/opt`
   * [Linux Journal: Point/Counterpoint - /opt vs. /usr/local](https://www.linuxjournal.com/magazine/pointcounterpoint-opt-vs-usrlocal)
   * [Stackexchange: What is the difference between /opt and /usr/local?](https://unix.stackexchange.com/questions/11544/what-is-the-difference-between-opt-and-usr-local)
-

@@ -1,5 +1,43 @@
 # Process management
 
+* [Operating-System-Concepts]
+  * as a process executes, can have one of the following states
+    * _new_ being created
+    * _running_
+    * _wating_ e.g. for an I/O completion of receiving a signal
+    * _ready_ waiting to be assigned
+    * _terminated_
+* **PCB** the kernel datastructure representing a process in an OS
+  * containg information such as process state, list of open files, pointer to process' parent etc
+  * in Linux represented by _task_struct_ (doubly linked list), exposed via `/proc/<process-id>/...`
+* process scheduling queues
+  * _ready queue_ - ready and waiting to be executed
+  * _watis queue_ - processes waiting for a certain event such as completion of I/O
+* **IPC** interprocess communication (IPC), two fundamental models
+  * (1) shared memory e.g. `shm_open` - create/open POSIX shared memory objects
+  * (2) message passing
+
+  * _pipes_ - allow two processes to communicate in standard producer-consumer fashion
+    * ordinary / anonymous pipes
+    * names pipes or FIFOs - `mkfifo()` syscall
+
+  * _sockets_ - 'socket' = endpoint for communication
+  * _RCP_ - remote procedure calls
+
+* [Linux-Kernel-Development]
+  * processes provide two virtualizations
+    * (1) a virtualized processor
+    * (2) virtual memory
+  * in current Linux, `fork()` is implemented via the `clone()` system call; clone man page:
+    > By  contrast with fork(2), these system calls provide more precise control over
+    > what pieces of execution context are shared between the calling process and the child process.
+  * process state: `state` field in `task_struct`:
+    * `TASK_RUNNING`
+    * `TASK_INTERRUPTIBLE` _waiting_ - sleeping/blocked, receives and reacts to signals
+    * `TASK_UNINTERRUPTIBLE` _waiting_ - does not wake and become runnable (even when recv signal)
+    * `__TASK_TRACED` - being traced (e.g. debugger, ptrace)
+    * `__TASK_STOPPED`
+
 _note:_
   On Linux, 0 typically represents success; a nonzero value, such as 1 or -1, corresponds to failure.
 
@@ -141,3 +179,9 @@ registration.
             return 0;
     }
     ```
+
+## links / references
+
+[Linux-System-Programming]:https://www.oreilly.com/library/view/linux-system-programming/9781449341527/
+[Linux-Kernel-Development]:https://www.oreilly.com/library/view/linux-kernel-development/9780768696974/
+[Operating-System-Concepts]: https://codex.cs.yale.edu/avi/os-book/
