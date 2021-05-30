@@ -1,14 +1,34 @@
 # Threading
 
+* [Operating-System-Concepts]
+  * **Note:** _concurrency_ vs _parallelism_
+  * programming callenges for multicore/multi-threaded systems:
+    * identifying tasks - what can be divided into separate tasks (ideally independent)
+    * balance - tasks performing equal work of equal value; if not worth separate task/thread at all?
+    * data splitting - data accessed and changes by tasks must be divided too
+    * data dependency - synchronization in case of data dependencies of tasks
+    * testing debugging
+
+* [Linux-Kernel-Development]
+  > To the Linux kernel, there is no concept of a thread.  
+  > Linux implements all threads as standard processes  
+  > The Linux kernel does not provide any special scheduling semantics or  
+  > data structures to represent threads. Instead, a thread is merely  
+  > a process that shares certain resources with other processes.  
+  * syscall `clone()` to create threads
+  * _kernel threads_ standard processes that exist solely in kernel-space.
+
 _Threading_ - creation and management of multiple units of execution within a single process. \
 _Binarry_ - dormant program resigin on storage \
 _Process_ - OS abstraction representing a binary the loaded binary, virtualized memory, kernel resources (e.g. open files), ...
 _Thread_ - unit of execution withing a process: a virtualized processor, a stack, and program state
 
+[Linux-System-Programming]
+
 * Modern OSs have two fundamentaion (virtualized) abstractions to user-space:
   * virtualized prozesssor
     * associated with with threads (and not the process)
-  * virtial memory
+  * virtual memory
     * associated with process; hence each process has a unique view of memory
     * however all threads in a process _share_ this memory
 
