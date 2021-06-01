@@ -55,7 +55,10 @@
   * _Note:_ all files in '/proc' have a file size of '0' (with the exception of kcore, mtrr and self)
 
   * detail description in man page `man 5 proc`
-  * see also [tldp: 1.14. /proc](https://tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html)
+  * see also
+    * [tldp: 1.14. /proc](https://tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html)
+    * [proc man page](https://man7.org/linux/man-pages/man5/proc.5.html)
+    * [kernel.org doc on 'proc'](https://www.kernel.org/doc/html/latest/filesystems/proc.html)
 
 * **/run**
 
