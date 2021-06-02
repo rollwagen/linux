@@ -19,8 +19,8 @@
   * _kernel threads_ standard processes that exist solely in kernel-space.
 
 _Threading_ - creation and management of multiple units of execution within a single process. \
-_Binarry_ - dormant program resigin on storage \
-_Process_ - OS abstraction representing a binary the loaded binary, virtualized memory, kernel resources (e.g. open files), ...
+_Binary_ - dormant program resigin on storage \
+_Process_ - OS abstraction representing the loaded binary, virtual. mem., kernel resources (fds etc)
 _Thread_ - unit of execution withing a process: a virtualized processor, a stack, and program state
 
 * [Linux-System-Programming]
@@ -51,8 +51,34 @@ _Thread_ - unit of execution withing a process: a virtualized processor, a stack
     * the kernel provides a native thread concept, while user space also implements user threads
   
   * Threading patterns, the two core programming patterns are:
-    * _thread-per-connection_
+    * _thread-per-connection_ - unit of work is assigned to one thread, which "runs until completion"
     * _event-driven_
+      * comes from observation that threads do a lot of waiting: reading files, waiting for dbs, ...
+      * suggested to consider the _event-driven pattern_ first i.e.
+        * asynchronous I/O
+        * callbacks
+        * an event loop
+        * a small thread pool with just a thread per processor.
+
+    * _Race condition_ situation in which unsynchronized access of shared resources lead to errors
+      * shared resources examples: system's hw, a kernel resource, data in memory etc
+      * _critical regtion - region of code that should be synchronized
+
+    * **Synchronization**
+      > The fundamental source of races is that critical regions are a window during which correct
+      > program behavior requires that threads do not interleave execution. To prevent race conditions,
+      > then, the programmer needs to synchronize access to that window, ensuring mutually exclusive
+      > access to the critical region.
+      * _atomic operation_ - indivisible, unable to be interleaved with other operations
+        * problem with critical regions: they are not atomic
+
+    * **Locks / Mutexes**
+      * _lock_ mechanism for ensuring mutual exclusion within a cricial region, making it _atomic_
+      * also knows as _mutexes_ (e.g. in Pthreads)
+      * the smaller the critical region, the better:
+        * locks prevent concurreny thus negating threading benefits
+
+    * **_Deadlock_** - situation where 2 threads are waiting for the other to finish, thus neither does
   
 ## links / references
 
