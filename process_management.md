@@ -180,8 +180,6 @@ registration.
     }
     ```
 
-## links / references
-
 [Linux-System-Programming]:https://www.oreilly.com/library/view/linux-system-programming/9781449341527/
 [Linux-Kernel-Development]:https://www.oreilly.com/library/view/linux-kernel-development/9780768696974/
 [Operating-System-Concepts]: https://codex.cs.yale.edu/avi/os-book/

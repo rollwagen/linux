@@ -197,7 +197,7 @@ Examples: `/var/lib/pacman`, `/var/lib/apt`, `/var/lib/man-db`
 > temporary files or directories that are preserved between system reboots.
 > Therefore, data stored in /var/tmp is more persistent than data in /tmp.
 
-## Link, references etc
+## Links, references etc
 
 * `/usr/local` vs `/opt`
   * [Linux Journal: Point/Counterpoint - /opt vs. /usr/local](https://www.linuxjournal.com/magazine/pointcounterpoint-opt-vs-usrlocal)
