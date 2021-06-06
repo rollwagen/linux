@@ -116,7 +116,7 @@ _Thread_ - unit of execution withing a process: a virtualized processor, a stack
 
 * **semaphore** - and `int` accessed only through two standard atomic operations: `wait()` and `signal()`
 
-* **monitor** 
+* **monitor**
   * _"The monitor construct ensures that only one process at a time is active within the monitor."_
   > A monitor is an abstract data type that provides a high-level form of process synchronization.
   > A monitor uses condition variables that allow processes to wait for certain conditions to become
@@ -128,7 +128,7 @@ _Thread_ - unit of execution withing a process: a virtualized processor, a stack
 
 * **deadlock**
   > a set of processes is in a deadlocked state when every process in the set is waiting for
-  > an event that can be caused only by another process in the set. 
+  > an event that can be caused only by another process in the set.
 
 * locking _approaches_
   * _optimistic_ - first update variable and then use collision detection
@@ -149,19 +149,18 @@ _Note:_
 
 * POSIX **Pthreads**
   * mutex locks data type `pthread mutex t`
-  ```c
-  #include <pthread.h>
-  int main() {
-      pthread_mutex_t mutex;
-      pthread_mutex_init(&mutex,NULL); /* create + init the mutex lock */
-      pthread_mutex_lock(&mutex); /* acquire lock */
-      /* ******************************
-       * critical section goes here
-       * ******************************/
-      pthread_mutex_unlock(&mutex); /* release lock */
-  }
-  ```
-
+    ```c
+    #include <pthread.h>
+    int main() {
+        pthread_mutex_t mutex;
+        pthread_mutex_init(&mutex,NULL); /* create + init the mutex lock */
+        pthread_mutex_lock(&mutex); /* acquire lock */
+        /* ******************************
+         * critical section goes here
+         * ******************************/
+        pthread_mutex_unlock(&mutex); /* release lock */
+    }
+    ```
 
 [Linux-System-Programming]:https://www.oreilly.com/library/view/linux-system-programming/9781449341527/
 [Linux-Kernel-Development]:https://www.oreilly.com/library/view/linux-kernel-development/9780768696974/
