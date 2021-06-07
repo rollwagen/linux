@@ -115,6 +115,13 @@ _Thread_ - unit of execution withing a process: a virtualized processor, a stack
     > second context switch to restore the waiting thread once the lock becomes available
 
 * **semaphore** - and `int` accessed only through two standard atomic operations: `wait()` and `signal()`
+  * from [Linux-Kernel-Development]:
+    * in Linux, sepaphores are _sleeping locks_
+      > When a task attempts to acquire a semaphore that is unavailable, the semaphore places
+      > the task onto a wait queue and puts the task to sleep.
+    * _pro_ b/c task sleeps, semaphores are well suited to locks that are held for a long time
+    * _con_ b/c of overhead (two context switches) not optimal for locks held for short periods
+    * often 'used' as sleeping _mutual exclusion lock_ ("sleeping spin lock") with a _count_ of one
 
 * **monitor**
   * _"The monitor construct ensures that only one process at a time is active within the monitor."_
@@ -137,15 +144,30 @@ _Thread_ - unit of execution withing a process: a virtualized processor, a stack
 
 ### Synchronization Examples
 
-_Note:_
+_Note:_ \
 > Prior kernel 2.6, Linux was a nonpreemptive kernel, meaning that a process running in
 > kernel mode could not be preempted—even if a higher-priority process became available to run.
 
 * **Kernel**
+  * [Linux-Kernel-Development]: _"mutex" is a generic name to refer to any sleeping lock that enforces mutual exclusion_
   * _Atomics_: Linux kernel atomic integer `atomic_t` with atomic operations `atomic_inc(&i)` or `atomic_read(&i)`
+  * _Semaphores_:
+    * [Linux-Kernel-Development]: "Until recently, the only sleeping lock in the kernel was the semaphore"
+  ```c
+      struct semaphore name;
+      sema_init(&name, count);
+  ```
   * _Mutex locks_: `mutex_lock()` / `mutex_unlock()`
-  > If the mutex lock is unavailable, a task calling `mutex lock()` is put into a sleep state
-  > and is awakened when the lock’s owner invokes `mutex unlock()`
+    > If the mutex lock is unavailable, a task calling `mutex lock()` is put into a sleep state
+    > and is awakened when the lock’s owner invokes `mutex unlock()`
+    * [Linux-Kernel-Development]: * behaves similar to a semaphore with a count of one, but it has a simpler interface
+  * _Spinlock_
+  ```c
+    <linux/spinlock.h>
+    spin_lock(S);
+    /* critical section */
+    spin_unlock(S);
+  ```
 
 * POSIX **Pthreads**
   * mutex locks data type `pthread mutex t`
@@ -161,7 +183,54 @@ _Note:_
         pthread_mutex_unlock(&mutex); /* release lock */
     }
     ```
+* Pthreads deadlock example:
+  ```sh
+  $ ps uaxH  # process state: S
+  archlin+     902  0.0  0.0  18524   568 pts/0    Sl+  10:28   0:00 ./a.out
+  # PROCESS STATE CODES
+  # S    interruptible sleep (waiting for an event to complete)
+  # l    is multi-threaded
+  ```
+  ```c
+    #include <pthread.h>
+    #include <stdlib.h>
+    #include <stdio.h>
+    #include <unistd.h>
+    
+    pthread_mutex_t mutex_A;
+    pthread_mutex_t mutex_B;
+    
+    void *thread_function_01(void *param) {
+        pthread_mutex_lock(&mutex_A);
+        sleep(1); /* this will force deadlock as thread02 will lock mutex_B  */
+        pthread_mutex_lock(&mutex_B);
+            printf ("%s\n", "thread01"); /* do work */
+        pthread_mutex_unlock(&mutex_B);
+        pthread_mutex_unlock(&mutex_A);
+        pthread_exit(0);
+    }
+    void *thread_function_02(void *param) {
+        pthread_mutex_lock(&mutex_B);
+        pthread_mutex_lock(&mutex_A);
+            printf ("%s\n", "thread02"); /* do work */
+        pthread_mutex_unlock(&mutex_A);
+        pthread_mutex_unlock(&mutex_B);
+        pthread_exit(0);
+    }
+    int main(void) {
+            pthread_t thread_01, thread_02;
+        pthread_mutex_init(&mutex_A, NULL);
+        pthread_mutex_init(&mutex_B, NULL);
+            pthread_create(&thread_01, NULL, thread_function_01, (void *) NULL);
+            pthread_create(&thread_02, NULL, thread_function_02, (void *) NULL);
+            pthread_join (thread_01, NULL);
+            pthread_join (thread_02, NULL);
+        return 0;
+    }
+  ```
 
+[Book:Linux-Sys-Progr]:https://www.oreilly.com/library/view/linux-system-programming/9781449341527/
 [Linux-System-Programming]:https://www.oreilly.com/library/view/linux-system-programming/9781449341527/
+[Book:Linux-Kernel-Dev]:https://www.oreilly.com/library/view/linux-kernel-development/9780768696974/
 [Linux-Kernel-Development]:https://www.oreilly.com/library/view/linux-kernel-development/9780768696974/
 [Operating-System-Concepts]: https://codex.cs.yale.edu/avi/os-book/
