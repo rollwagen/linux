@@ -29,8 +29,8 @@
     * (1) a virtualized processor
     * (2) virtual memory
   * in current Linux, `fork()` is implemented via the `clone()` system call; clone man page:
-    > By  contrast with fork(2), these system calls provide more precise control over
-    > what pieces of execution context are shared between the calling process and the child process.
+    * _By  contrast with fork(2), these system calls provide more precise control over_
+    * _what pieces of execution context are shared between the calling process and the child process._
   * process state: `state` field in `task_struct`:
     * `TASK_RUNNING`
     * `TASK_INTERRUPTIBLE` _waiting_ - sleeping/blocked, receives and reacts to signals
@@ -38,8 +38,8 @@
     * `__TASK_TRACED` - being traced (e.g. debugger, ptrace)
     * `__TASK_STOPPED`
 
-_note:_
-  On Linux, 0 typically represents success; a nonzero value, such as 1 or -1, corresponds to failure.
+_note:_ \
+> On Linux, 0 typically represents success; a nonzero value, such as 1 or -1, corresponds to failure.
 
 * in Unix, the creation of a new process and the act of loading a new binary is separated
   * `fork()`

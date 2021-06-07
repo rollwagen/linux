@@ -11,7 +11,7 @@
     * data dependency - synchronization in case of data dependencies of tasks
     * testing debugging
 
-* [Linux-Kernel-Development]
+* [Linux-Kernel-Development] \
   > To the Linux kernel, there is no concept of a thread.  
   > Linux implements all threads as standard processes  
   > The Linux kernel does not provide any special scheduling semantics or  

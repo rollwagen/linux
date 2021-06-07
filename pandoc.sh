@@ -2,15 +2,18 @@ for MDFILE in $(ls [a-z]*.md);
 do
         BASEFILENAME=$(basename "$MDFILE" ".md")
         pandoc \
-		--variable geometry:margin=1.5cm \
+		--variable geometry:margin=1.3cm \
 		--variable fontsize=12pt \
  		--variable colorlinks=true \
  		--variable papersize=a4 \
+		--variable links-as-notes \
 		"$MDFILE" -o "$BASEFILENAME".pdf
 done
 
+# pandoc --variable geometry:margin=1.5cm --variable fontsize=12pt --variable colorlinks=true --variable papersize=a4 --variable links-as-notes threading.md -o t.pdf
+
 pandoc \
-	--variable geometry:margin=1.5cm \
+	--variable geometry:margin=1.2cm \
 	--variable fontsize=12pt \
  	--variable colorlinks=true \
  	--variable papersize=a4 \
