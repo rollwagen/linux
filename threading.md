@@ -218,16 +218,25 @@ _Note:_ \
         pthread_exit(0);
     }
     int main(void) {
-            pthread_t thread_01, thread_02;
+        pthread_t thread_01, thread_02;
         pthread_mutex_init(&mutex_A, NULL);
         pthread_mutex_init(&mutex_B, NULL);
-            pthread_create(&thread_01, NULL, thread_function_01, (void *) NULL);
-            pthread_create(&thread_02, NULL, thread_function_02, (void *) NULL);
-            pthread_join (thread_01, NULL);
-            pthread_join (thread_02, NULL);
+        pthread_create(&thread_01, NULL, thread_function_01, (void *) NULL);
+        pthread_create(&thread_02, NULL, thread_function_02, (void *) NULL);
+        pthread_join (thread_01, NULL);
+        pthread_join (thread_02, NULL);
         return 0;
     }
   ```
+* **livelock**
+  * a liveness failure
+  * _livelock occurs when a thread continuously attempts an action that fails._
+  * _typically occurs when threads retry failing operations at the same time._
+  * _can generally be avoided by having each thread retry the failing operation at random times_
+
+## Deadlock prevention
+
+t o d o
 
 [Book:Linux-Sys-Progr]:https://www.oreilly.com/library/view/linux-system-programming/9781449341527/
 [Linux-System-Programming]:https://www.oreilly.com/library/view/linux-system-programming/9781449341527/
