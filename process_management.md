@@ -12,7 +12,7 @@
   * in Linux represented by _task_struct_ (doubly linked list), exposed via `/proc/<process-id>/...`
 * process scheduling queues
   * _ready queue_ - ready and waiting to be executed
-  * _watis queue_ - processes waiting for a certain event such as completion of I/O
+  * _waits queue_ - processes waiting for a certain event such as completion of I/O
 * **IPC** interprocess communication (IPC), two fundamental models
   * (1) shared memory e.g. `shm_open` - create/open POSIX shared memory objects
   * (2) message passing

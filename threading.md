@@ -125,15 +125,18 @@ _Thread_ - unit of execution withing a process: a virtualized processor, a stack
 
 * **monitor**
   * _"The monitor construct ensures that only one process at a time is active within the monitor."_
+  *
   > A monitor is an abstract data type that provides a high-level form of process synchronization.
   > A monitor uses condition variables that allow processes to wait for certain conditions to become
   > true and to signal one another when conditions have been set to true.
 
 * **liveness**
+  *
   > refers to a set of properties that a system must satisfy to ensure that processes make progress
   > during their execution life cycle.
 
 * **deadlock**
+  *
   > a set of processes is in a deadlocked state when every process in the set is waiting for
   > an event that can be caused only by another process in the set.
 
@@ -144,7 +147,8 @@ _Thread_ - unit of execution withing a process: a virtualized processor, a stack
 
 ### Synchronization Examples
 
-_Note:_ \
+_Note:_
+
 > Prior kernel 2.6, Linux was a nonpreemptive kernel, meaning that a process running in
 > kernel mode could not be preempted—even if a higher-priority process became available to run.
 
@@ -152,15 +156,17 @@ _Note:_ \
   * [Linux-Kernel-Development]: _"mutex" is a generic name to refer to any sleeping lock that enforces mutual exclusion_
   * _Atomics_: Linux kernel atomic integer `atomic_t` with atomic operations `atomic_inc(&i)` or `atomic_read(&i)`
   * _Semaphores_:
-    * [Linux-Kernel-Development]: "Until recently, the only sleeping lock in the kernel was the semaphore"
-  ```c
+    * [Linux-Kernel-Development] "Until recently, the only sleeping lock in the kernel was the semaphore"
+    ```c
       struct semaphore name;
       sema_init(&name, count);
-  ```
+    ```
   * _Mutex locks_: `mutex_lock()` / `mutex_unlock()`
-    > If the mutex lock is unavailable, a task calling `mutex lock()` is put into a sleep state
-    > and is awakened when the lock’s owner invokes `mutex unlock()`
-    * [Linux-Kernel-Development]: * behaves similar to a semaphore with a count of one, but it has a simpler interface
+    *
+    > "If the mutex lock is unavailable, a task calling `mutex lock()` is put into a sleep state
+    > and is awakened when the lock’s owner invokes `mutex unlock()`"
+    * [Linux-Kernel-Development] * behaves similar to a semaphore with a count of one, but it has a simpler interface
+
   * _Spinlock_
   ```c
     <linux/spinlock.h>
