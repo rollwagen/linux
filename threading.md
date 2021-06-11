@@ -64,6 +64,7 @@ _Thread_ - unit of execution withing a process: a virtualized processor, a stack
     * _critical regtion - region of code that should be synchronized
 
   * **Synchronization**
+    *
     > The fundamental source of races is that critical regions are a window during which correct
     > program behavior requires that threads do not interleave execution. To prevent race conditions,
     > then, the programmer needs to synchronize access to that window, ensuring mutually exclusive
@@ -84,6 +85,7 @@ _Thread_ - unit of execution withing a process: a virtualized processor, a stack
 [Operating-System-Concepts]
 
 * **race condition**
+  *
   > several processes access and manipulate the same data concurrently and the outcome of the
   > execution depends on the particular order in which the access takes place
   * examples in _kernel code_
@@ -107,21 +109,26 @@ _Thread_ - unit of execution withing a process: a virtualized processor, a stack
   * mutex **lock** states:
     * _contended_ thread blocks while trying to aquire lock
     * _uncontended_ lock is available when thread attempts to require it
-  * main **disadvantage**: **_busy waiting_**
-  * another name for this type of mutex lock: **spinlock**
-    * process _spins_ while watiting for lock
+  * another name for this _type of mutex lock_: **spinlock**
+  * can be held by at most one thread of execution
+  * main **disadvantage**: **_busy waiting_** (spinlock)
+    * process _spins_ while waiting for lock (busy wait)
     * advantage: no context switch required
     > a context switch to move the thread to the waiting state and a
     > second context switch to restore the waiting thread once the lock becomes available
 
-* **semaphore** - and `int` accessed only through two standard atomic operations: `wait()` and `signal()`
+* **semaphore** - an `int` accessed only through two standard atomic operations: `wait()` and `signal()`
   * from [Linux-Kernel-Development]:
-    * in Linux, sepaphores are _sleeping locks_
-      > When a task attempts to acquire a semaphore that is unavailable, the semaphore places
-      > the task onto a wait queue and puts the task to sleep.
-    * _pro_ b/c task sleeps, semaphores are well suited to locks that are held for a long time
-    * _con_ b/c of overhead (two context switches) not optimal for locks held for short periods
-    * often 'used' as sleeping _mutual exclusion lock_ ("sleeping spin lock") with a _count_ of one
+  * in Linux, sepaphores are _sleeping locks_
+  > When a task attempts to acquire a semaphore that is unavailable, the semaphore places
+  > the task onto a _wait queue_ and puts the task to sleep.
+  * _pro_ because task sleeps, semaphores are well suited to locks that are held for a long time
+  * _con_ because of overhead (two context switches) not optimal for locks held for short periods
+  * often 'used' as sleeping _mutual exclusion lock_ ("sleeping spin lock") with a _count_ of one
+  * _counting semaphore_ (value between 0 and 1) - can be used instead of mutex locks
+  * can have arbitrary number of simultaneous lock holders
+    * spinlock as well as `mutex_lock` at most one task/thread
+  * both for critical sections (mutual exclusion) and coordination (scheduling)
 
 * **monitor**
   * _"The monitor construct ensures that only one process at a time is active within the monitor."_
@@ -145,6 +152,12 @@ _Thread_ - unit of execution withing a process: a virtualized processor, a stack
   * _pessimistic_ - assume another thread is concurrently updating the variable...
     * so you pessimistically acquire the lock before making any updates.
 
+### Semaphores vs Mutexes vs Spinlock
+
+* Mutexes and Smaphores are simalar; both sleep wait processes
+  * use new mutex type whenever possible over semaphore (b/c it's simpler
+* Spinlocks if short lock hold time or in interrupt handler (semaphores can't as they'd sleep)
+  
 ### Synchronization Examples
 
 _Note:_
