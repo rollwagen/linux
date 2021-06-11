@@ -131,11 +131,15 @@ _Thread_ - unit of execution withing a process: a virtualized processor, a stack
   * both for critical sections (mutual exclusion) and coordination (scheduling)
 
 * **monitor**
+  * provides mutual exclusion; programming language construct (not available in all languages)
   * _"The monitor construct ensures that only one process at a time is active within the monitor."_
   *
   > A monitor is an abstract data type that provides a high-level form of process synchronization.
   > A monitor uses condition variables that allow processes to wait for certain conditions to become
   > true and to signal one another when conditions have been set to true.
+  * Examples:
+    * in Java part of language; `synchronized` keyword
+    * in Rust not part of language but provided via `Struct shared_mutex::monitor::Monitor`
 
 * **liveness**
   *
@@ -146,6 +150,11 @@ _Thread_ - unit of execution withing a process: a virtualized processor, a stack
   *
   > a set of processes is in a deadlocked state when every process in the set is waiting for
   > an event that can be caused only by another process in the set.
+  * **prevention** - few simple rules:
+    * Implement _lock ordering_; document lock ordering. Always aquire lock in same order (ABAB vs ABBA)
+    * Prevent _starvation_. Will code always finish?(or dependent on certain event on potentially wit forever)
+    * Do _not double aquire the same lock_
+    * _Simplicity_ - design for simplicity; complexity in locking schemes 'invites' deadlocks
 
 * locking _approaches_
   * _optimistic_ - first update variable and then use collision detection
@@ -155,7 +164,7 @@ _Thread_ - unit of execution withing a process: a virtualized processor, a stack
 ### Semaphores vs Mutexes vs Spinlock
 
 * Mutexes and Smaphores are simalar; both sleep wait processes
-  * use new mutex type whenever possible over semaphore (b/c it's simpler
+  * use new mutex type whenever possible over semaphore (b/c it's simpler)
 * Spinlocks if short lock hold time or in interrupt handler (semaphores can't as they'd sleep)
   
 ### Synchronization Examples
@@ -252,6 +261,10 @@ _Note:_
   * _livelock occurs when a thread continuously attempts an action that fails._
   * _typically occurs when threads retry failing operations at the same time._
   * _can generally be avoided by having each thread retry the failing operation at random times_
+  * from Java documentation:
+  > A thread often acts in response to the action of another thread.
+  > If the other thread's action is also a response to the action of another thread,
+  > then livelock may result.
 
 ## Deadlock prevention
 
