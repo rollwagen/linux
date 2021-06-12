@@ -266,9 +266,6 @@ _Note:_
   > If the other thread's action is also a response to the action of another thread,
   > then livelock may result.
 
-## Deadlock prevention
-
-t o d o
 
 [Book:Linux-Sys-Progr]:https://www.oreilly.com/library/view/linux-system-programming/9781449341527/
 [Linux-System-Programming]:https://www.oreilly.com/library/view/linux-system-programming/9781449341527/

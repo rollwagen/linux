@@ -146,6 +146,7 @@ lrwxrwxrwx 1 root root 7 Feb  1 17:20 /bin -> usr/bin
 
 > all read-only architecture independent (i386, Alpha, etc) data files.
 E.g. the following directories (or symlinks) must be in `/usr/share`
+
 | dir  |  description                 |
 |------|------------------------------|
 | man  | man pages                    |

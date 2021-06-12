@@ -33,7 +33,7 @@ Two falvors of multitasking OS:
     * assigns processes a proportion of the processor.
     * thus, amount of processor time a process receives is a function of the load of the system
 
-Linux Kernel Development...continue 121 !!!
+> Linux Kernel Development...p121
 
 [Linux-System-Programming]:https://www.oreilly.com/library/view/linux-system-programming/9781449341527/
 [Linux-Kernel-Development]:https://www.oreilly.com/library/view/linux-kernel-development/9780768696974/

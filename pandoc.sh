@@ -14,10 +14,11 @@ done
 
 pandoc \
 	--variable geometry:margin=1.2cm \
-	--variable fontsize=11pt \
+	--variable fontsize=12pt \
  	--variable colorlinks=true \
  	--variable papersize=a4 \
-	essential_concepts.md filesystem_hierarchy_standard.md process_management.md memory_management.md threading.md \
+	essential_concepts.md filesystem_hierarchy_standard.md process_management.md \
+	memory_management.md threading.md scheduling.md \
 	-o linux.pdf
 
 #	--table-of-contents \
