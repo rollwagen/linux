@@ -1,4 +1,4 @@
-# Linux/Unix concepts, kernel internals etc refresher
+# Linux/Unix concepts, kernel internals etc
 
 Notes from the following books, with (partly) additional links and samples.
 
