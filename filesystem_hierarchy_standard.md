@@ -68,8 +68,8 @@
 E.g. on both Ubuntu and ArchLinux
 
 ```bash
-$ ls -ld /var/run
-lrwxrwxrwx 6 root 19 Jan 02:32 /var/run -> ../run
+    $ ls -ld /var/run
+    lrwxrwxrwx 6 root 19 Jan 02:32 /var/run -> ../run
 ```
 
 * Examples entries in 'run':

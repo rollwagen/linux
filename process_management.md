@@ -7,7 +7,8 @@
     * _wating_ e.g. for an I/O completion of receiving a signal
     * _ready_ waiting to be assigned
     * _terminated_
-* **PCB** the kernel datastructure representing a process in an OS
+* **PCB** - **P**rocess **C**ontrol **B**lock
+  * the kernel datastructure representing a process in an OS
   * containg information such as process state, list of open files, pointer to process' parent etc
   * in Linux represented by _task_struct_ (doubly linked list), exposed via `/proc/<process-id>/...`
 * process scheduling queues
@@ -156,7 +157,7 @@ registration.
   * (2) in the parent call `exit()`; _reparents_ process to pid 1 (=init)
   * (3) call `setsid()` - with process itself as leader
   * (4) change the working directory to the root directory "/" via `chdir()`
-  * (5) close all file descriptors
+  * (5) close all file descriptors (`ulimit -a`: open files (-n) 1024)
   * (6) open file descriptors 0, 1, 2 and redirect them to `/dev/null`
 
     ```c

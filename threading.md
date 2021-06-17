@@ -22,13 +22,13 @@
 
 _Threading_ - creation and management of multiple units of execution within a single process. \
 _Binary_ - dormant program resigin on storage \
-_Process_ - OS abstraction representing the loaded binary, virtual. mem., kernel resources (fds etc)
+_Process_ - OS abstraction representing the loaded binary, virtual. mem., kernel resources (fds etc) \
 _Thread_ - unit of execution withing a process: a virtualized processor, a stack, and program state
 
 * [Linux-System-Programming]
   
-  * Modern OSs have two fundamentaion (virtualized) abstractions to user-space:
-    * virtualized prozesssor
+  * Modern OSs have two fundamental (virtualized) abstractions to user-space:
+    * virtualized processsor
       * associated with with threads (and not the process)
     * virtual memory
       * associated with process; hence each process has a unique view of memory
@@ -55,13 +55,13 @@ _Thread_ - unit of execution withing a process: a virtualized processor, a stack
   * Threading patterns, the two core programming patterns are:
     * _thread-per-connection_ - unit of work is assigned to one thread, which "runs until completion"
     * _event-driven_:
-      * comes from observation that threads do a lot of waiting: reading files, waiting for dbs, ...
+      * comes from observation that threads do a lot of waiting: reading files, waiting for dbs, etc
       * suggested to consider the _event-driven pattern_ first i.e.
       * asynchronous I/O, callbacks, an event loop, a small thread pool with just a thread per processor.
 
   * _Race condition_ situation in which unsynchronized access of shared resources lead to errors
     * shared resources examples: system's hw, a kernel resource, data in memory etc
-    * _critical regtion - region of code that should be synchronized
+    * _critical region_ - region of code that should be synchronized
 
   * **Synchronization**
     *
@@ -113,15 +113,15 @@ _Thread_ - unit of execution withing a process: a virtualized processor, a stack
   * can be held by at most one thread of execution
   * main **disadvantage**: **_busy waiting_** (spinlock)
     * process _spins_ while waiting for lock (busy wait)
-    * advantage: no context switch required
-    > a context switch to move the thread to the waiting state and a
-    > second context switch to restore the waiting thread once the lock becomes available
+    * advantage: no context switch required:
+      * _a context switch to move the thread to the waiting state and a_
+      * _second context switch to restore the waiting thread once the lock becomes available_
 
 * **semaphore** - an `int` accessed only through two standard atomic operations: `wait()` and `signal()`
   * from [Linux-Kernel-Development]:
   * in Linux, sepaphores are _sleeping locks_
-  > When a task attempts to acquire a semaphore that is unavailable, the semaphore places
-  > the task onto a _wait queue_ and puts the task to sleep.
+    * _When a task attempts to acquire a semaphore that is unavailable, the semaphore places_
+    * _the task onto a **wait queue** and puts the task to sleep._
   * _pro_ because task sleeps, semaphores are well suited to locks that are held for a long time
   * _con_ because of overhead (two context switches) not optimal for locks held for short periods
   * often 'used' as sleeping _mutual exclusion lock_ ("sleeping spin lock") with a _count_ of one
@@ -175,7 +175,7 @@ _Note:_
 > kernel mode could not be preempted—even if a higher-priority process became available to run.
 
 * **Kernel**
-  * [Linux-Kernel-Development]: _"mutex" is a generic name to refer to any sleeping lock that enforces mutual exclusion_
+  * [Linux-Kernel-Development] _"mutex" is a generic name to refer to any sleeping lock that enforces mutual exclusion_
   * _Atomics_: Linux kernel atomic integer `atomic_t` with atomic operations `atomic_inc(&i)` or `atomic_read(&i)`
   * _Semaphores_:
     * [Linux-Kernel-Development] "Until recently, the only sleeping lock in the kernel was the semaphore"
@@ -187,7 +187,7 @@ _Note:_
     *
     > "If the mutex lock is unavailable, a task calling `mutex lock()` is put into a sleep state
     > and is awakened when the lock’s owner invokes `mutex unlock()`"
-    * [Linux-Kernel-Development] * behaves similar to a semaphore with a count of one, but it has a simpler interface
+    * [Linux-Kernel-Development] - behaves similar to a semaphore with a count of one, but it has a simpler interface
 
   * _Spinlock_
   ```c
@@ -198,7 +198,7 @@ _Note:_
   ```
 
 * POSIX **Pthreads**
-  * mutex locks data type `pthread mutex t`
+  * mutex locks data type `pthread_mutex_t`
     ```c
     #include <pthread.h>
     int main() {
@@ -265,7 +265,6 @@ _Note:_
   > A thread often acts in response to the action of another thread.
   > If the other thread's action is also a response to the action of another thread,
   > then livelock may result.
-
 
 [Book:Linux-Sys-Progr]:https://www.oreilly.com/library/view/linux-system-programming/9781449341527/
 [Linux-System-Programming]:https://www.oreilly.com/library/view/linux-system-programming/9781449341527/

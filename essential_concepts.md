@@ -28,12 +28,12 @@
 * _SUS_ - Single UNIX Specification
 * POSIX and SUS document e.g. the C API for a Unix-like operating system interface
 * SUS subsumes/includes POSIX
-* _LSB_ Linux Standard Base
-  * [LSB Wikipedia](https://en.wikipedia.org/wiki/Linux_Standard_Base)
-    > ... standardize the software system structure,
-    > including the Filesystem Hierarchy Standard used in the Linux kernel.
-    > The LSB is based on the POSIX specification, the Single UNIX Specification (SUS)
-    > and several other open standards, but extends them in certain areas.
+* _LSB_ Linux Standard Base; [LSB Wikipedia](https://en.wikipedia.org/wiki/Linux_Standard_Base)
+  *
+  > ... standardize the software system structure,
+  > including the Filesystem Hierarchy Standard used in the Linux kernel.
+  > The LSB is based on the POSIX specification, the Single UNIX Specification (SUS)
+  > and several other open standards, but extends them in certain areas. ...
 
 ## files / filesystem
 
@@ -86,6 +86,7 @@
     * _directories_ - mapping of human-readable names to inode numbers
       * like any normal file, with difference that it contains only mappings of names to inodes
     * _link_ = (file-)name and inode pair(-mapping)
+      *
       > ...The physical on-disk form of this mapping—for example, a simple table or a hash—is
       >implemented and managed by the kernel code that supports a given filesystem...
     * _dentry_ = directory entry
@@ -176,9 +177,9 @@
   * metadata
   * multiple _sections_ of code and data
 * ELF **sections** - linear chunks of obj code, all bytes in a section are treated same (e.g. permission)
-  * _text section_ - executable code and read-only data (e.g. constands); read-only
+  * _text section_ - executable code and read-only data (e.g. constants); read-only
   * _data sections_ - initialized data e.g. C variables with defined values; read-write
-  * _bss section__ - uninitialized global data to be initialized (optimization) by _zero page_
+  * _bss section_ - uninitialized global data to be initialized (optimization) by _zero page_
   * _absolute section_ - nonrelocatable symbols
   * _undefined section_ - (catchall)
 * process **resources**
@@ -186,7 +187,7 @@
   * resource manipulation through system calls
   * examples: timers, pending signals, open files, network connections, IPC, ..
 
-  * **process descriptor** - inside kernel sotere for process resources, data, statistics, ..
+  * **process descriptor** - inside kernel structure for process resources, data, statistics, ..
 
   * process = **virtualization abstraction**
     * kernel supports both _preemptive multitasking_ and _virtual memory_
@@ -214,6 +215,7 @@
       * _reparenting_ - if parent terminates before child, kernel will _reparent_ child to init process
     * a process is not immediately removed...
       * instead kernel keeps part in memory to allow parent to inquiry about staus WAIT(2):
+      *
       > ...In the case of a terminated child, performing a wait allows the system to release the
       > resources associated with the child; if a wait  is  not  performed, then the terminated
       > child remains in a "zombie" state ..."
@@ -238,9 +240,9 @@
 * _signals_ - mechanism for one-way asynchronous notification
 * typically alert a process about some event; about 30 signals implemented in kernel
 * may be sent from:
-* kernel to process
-* process to another process
-* process to itself
+  * kernel to process
+  * process to another process
+  * process to itself
 * each signal is represented by a numeric constanct and a textual name e.g.
 
 | Signal | Value | Comment                                  |
