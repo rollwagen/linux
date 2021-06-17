@@ -11,19 +11,19 @@ the first sample of each section. For readability they are ommitted in following
 samples. However, if the includes change (e.g. additional ones needed) they are
 included in the code sample again.
 
-[Essential Concepts](essential_concepts.md) [pdf](pdfs/essential_concepts.pdf) \
+[Essential Concepts](essential_concepts.md) ([pdf](pdfs/essential_concepts.pdf))
 
-[Process Management](process_management.md) [pdf](pdfs/process_management.pdf) \
+[Process Management](process_management.md) ([pdf](pdfs/process_management.pdf))
 
-[Scheduling](scheduling.md) [pdf](pdfs/scheduling.pdf) \
+[Scheduling](scheduling.md) ([pdf](pdfs/scheduling.pdf))
 
-[Memory Management](memory_management.md) [pdf](pdfs/memory_management.pdf)
+[Memory Management](memory_management.md) ([pdf](pdfs/memory_management.pdf))
 
-[Multithreading / Synchronization](threading.md) [pdf](pdfs/threading.pdf)
+[Multithreading / Synchronization](threading.md) ([pdf](pdfs/threading.pdf))
 
 ## Filesystem Hierarchy Standard (FHS)
 
-Summary/notes/examples from going over the FHS: [Filesystem Hierarchy Standard](filesystem_hierarchy_standard.md) [pdf](pdfs/filesystem_hierarchy_standard.pdf)
+Summary/notes/examples from going over the FHS: [Filesystem Hierarchy Standard](filesystem_hierarchy_standard.md) ([pdf](pdfs/filesystem_hierarchy_standard.pdf))
 
 ## All in one pdf
 
