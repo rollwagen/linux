@@ -4,6 +4,8 @@
 
 [Essential Concepts](essential_concepts.md) ([pdf](pdfs/essential_concepts.pdf))
 
+[Filesystem Hierarchy Standard (FHS)](filesystem_hierarchy_standard.md) ([pdf](pdfs/filesystem_hierarchy_standard.pdf))
+
 [Process Management](process_management.md) ([pdf](pdfs/process_management.pdf))
 
 [Scheduling](scheduling.md) ([pdf](pdfs/scheduling.pdf))
@@ -19,17 +21,13 @@ the first sample of each section. For readability they are ommitted in following
 samples. However, if the includes change (e.g. additional ones needed) they are
 included in the code sample again.
 
-### Books
+### Sources / Books
 
-The notes/summaries are from the following books, with (partly) additional links and samples.
+The notes/summaries are mostly from the following books:
 
 * [Linux System Programming (2nd ed)](https://www.oreilly.com/library/view/linux-system-programming/9781449341527/)
 * [Linux Kernel Development](https://www.oreilly.com/library/view/linux-kernel-development/9780768696974/)
 * [Operating-System-Concepts](https://codex.cs.yale.edu/avi/os-book/)
-
-## Filesystem Hierarchy Standard (FHS)
-
-Summary/notes/examples from going over the FHS: [Filesystem Hierarchy Standard](filesystem_hierarchy_standard.md) ([pdf](pdfs/filesystem_hierarchy_standard.pdf))
 
 ## All in one pdf
 
